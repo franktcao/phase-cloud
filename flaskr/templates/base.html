@@ -12,17 +12,16 @@
 
 <!--Website header with mail, github and linkedin link-->
 <header>
-    <a style="padding:0 0.5rem" href="mailto:chenming.yong13@gmail.com"><img
+    <a style="padding:0 5.5rem" href="mailto:franktcao@gmail.com"><img
             src="{{ url_for('static', filename='email.png') }}"></a>
-    <a style="padding:0 0.5rem" href="https://github.com/cmy113/sentiment-analysis-project" target="_blank"><img
+    <a style="padding:0 5.5rem" href="https://github.com/franktcao" target="_blank"><img
             src="{{ url_for('static', filename='github.png') }}"></a>
-    <a style="padding:0 0.5rem" href="https://www.linkedin.com/in/chenming-yong/" target="_blank"><img
+    <a style="padding:0 5.5rem" href="https://www.linkedin.com/in/franktcao/" target="_blank"><img
             src="{{ url_for('static', filename='linkedin.png') }}"></a>
 </header>
 
 <body>
 
-<!--Website content-->
 <div class="content">
 
     <!--
@@ -35,8 +34,8 @@
             <img src="{{ url_for('static', filename='postive.gif') }}" class="image">
         </div>
         <div class="column">
-            <h1>Sentiment LOOK A CHANGE Analysis</h1>
-            <h2>Positive or Negative</h2>
+            <h1>Phrase Cloud</h1>
+            <h2>Give me some phrases and I make cloud</h2>
         </div>
         <div class="column">
             <img src="{{ url_for('static', filename='negative.gif') }}" class="image">
@@ -46,8 +45,7 @@
     <!--Add a horizontal line in between-->
     <hr>
 
-    <!--h3 to ask user to input message-->
-    <h3>Input your message to get its sentiment</h3>
+    <h3>Add phrases to make a phrase cloud!</h3>
 
     <!--
     1. Create a form with text input and submit button
@@ -58,13 +56,12 @@
             <tr>
                 <td width="85%"><input type="text" name="message" id="message" required></td>
                 <td width="15%">
-                    <button>SUBMIT</button>
+                    <button>Submit</button>
                 </td>
             </tr>
         </table>
     </form>
 
-    <!--Add two line breaks between the input and output-->
     <br>
     <br>
 
@@ -72,12 +69,10 @@
     {% block content %}
     {% endblock %}
 
-    <!--Add two line breaks between the output and footer-->
     <br>
     <br>
 </div>
 
-<!--Website footer-->
 <footer>
     <hr>
     <p style="font-size:0.75em">Credits</p>

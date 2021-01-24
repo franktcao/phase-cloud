@@ -1,19 +1,17 @@
 import pickle
-from flask import Flask
-from .model import predict # Import predict function from model.py
+from flask import (
+    Flask, redirect, render_template, request, session, url_for
+)
+from .model import predict
 
 
 '''
 Initiate a new flaskr app
 1. Input some random secret key to be used by the application 
-2. Input some flaskr commands that would be used by the application
 '''
 app = Flask(__name__)
 app.config.from_mapping(
     SECRET_KEY='\xe0\xcd\xac#\x06\xd9\xe4\x00\xa5\xf2\x88\xc3\xef$\xa5\x05n\x97\xd8\x1269i\xd3'
-)
-from flask import (
-    redirect, render_template, request, session, url_for
 )
 
 

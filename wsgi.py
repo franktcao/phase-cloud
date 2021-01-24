@@ -1,3 +1,5 @@
-from flaskr.main import app # Import app from main.py
+from flaskr.main import app
+
+
 if __name__ == "__main__":
     app.run()
