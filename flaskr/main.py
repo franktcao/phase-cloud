@@ -1,9 +1,9 @@
 import pickle
 from flask import (
-    Flask, redirect, render_template, request, session, url_for
+    Flask, redirect, render_template, request, session, url_for,
 )
-from .model import predict
 
+from .model import predict
 
 '''
 Initiate a new flaskr app
