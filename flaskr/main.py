@@ -45,7 +45,7 @@ def result():
         fig = get_word_cloud_fig(text=message)
         fig.show()
 
-        saved_image = "images/word_cloud.png"
+        saved_image = "word_cloud.png"
         plt.savefig(saved_image)
 
         return render_template("result.html", message=message, image=saved_image)
