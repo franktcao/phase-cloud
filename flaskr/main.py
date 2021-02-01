@@ -71,7 +71,7 @@ def update_result() -> bool:
 
 def get_word_cloud_fig(
     text: str, fig_size: List[int] = [16, 12], **wc_kwargs: Any
-) -> plt.Fig:
+) -> plt.Figure:
     """
     Generate and return a word cloud image.
 
