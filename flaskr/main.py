@@ -1,4 +1,5 @@
 import flask
+import matplotlib.pyplot as plt
 import pickle
 from flask import (
     Flask,
@@ -6,6 +7,8 @@ from flask import (
     render_template,
     url_for,
 )
+from typing import Any, List
+from wordcloud import WordCloud
 
 from .model import predict
 
@@ -39,13 +42,13 @@ def result():
         return redirect(url_for("result"))
     else:
         message = flask.session.get("message")
-        df_pred = model.predict(model=model, text=message)
-        sentiment = df_pred.head(1)["sentiment"].values[0]
-        score = df_pred.head(1)["score"].values[0]
+        fig = get_word_cloud_fig(text=message)
+        plt.imshow(fig)
 
-        return render_template(
-            "result.html", message=message, sentiment=sentiment, score=score
-        )
+        saved_image = "images/word_cloud.png"
+        plt.savefig(saved_image)
+
+        return render_template("result.html", message=message, image=saved_image)
 
 
 def update_result() -> bool:
@@ -64,3 +67,31 @@ def update_result() -> bool:
             flask.session["message"] = message
             return True
     return False
+
+
+def get_word_cloud_fig(
+    text: str, fig_size: List[int] = [16, 12], **wc_kwargs: Any
+) -> plt.Fig:
+    """
+    Generate and return a word cloud image.
+
+    :param text:
+        Text to be converted to a word cloud
+    :param fig_size:
+        Size of image figure
+    :param wc_kwargs:
+        Keyword arguments to initialize word cloud (see
+        https://amueller.github.io/word_cloud/generated/wordcloud.WordCloud.html)
+    :return:
+        Image of word cloud
+    """
+    default_kwargs = dict(width=1280, height=960, background_color="white")
+    wc_kwargs = {**default_kwargs, **wc_kwargs}
+
+    cloud = WordCloud(wc_kwargs).generate(text)
+
+    fig, ax = plt.subplots(figsize=fig_size)
+    ax.imshow(cloud, interpolation="bilinear")
+    ax.axis("off")
+
+    return fig
