@@ -1,71 +1,97 @@
+import flask
+import matplotlib.pyplot as plt
 import pickle
 from flask import (
-    Flask, redirect, render_template, request, session, url_for,
+    Flask,
+    redirect,
+    render_template,
+    url_for,
 )
+from typing import Any, List
+from wordcloud import WordCloud
 
 from .model import predict
 
-'''
-Initiate a new flaskr app
-1. Input some random secret key to be used by the application 
-'''
 app = Flask(__name__)
 app.config.from_mapping(
-    SECRET_KEY='\xe0\xcd\xac#\x06\xd9\xe4\x00\xa5\xf2\x88\xc3\xef$\xa5\x05n\x97\xd8\x1269i\xd3'
+    SECRET_KEY="\xe0\xcd\xac#\x06\xd9\xe4\x00\xa5\xf2\x88\xc3\xef$\xa5\x05n\x97\xd8"
 )
 
 
-'''
-Load the machine learning libraries 
-1. Logistic regression model is used to predict the sentiment on the newly computed matrix
-'''
-
-# Load the machine learning model
-with open('./flaskr/static/LogisticRegression.pickle', 'rb') as input_file:
-    model = pickle.load(input_file)
-
-
-'''
-Home Page
-1. It will take both GET and POST requests 
-2. For GET request, base.html (homepage) will be rendered without any results shown
-3. For POST request, input message will be obtained from the form in base.html.
-    a) Session will then be cleared (to remove anything belonged to previous session) and 'message' will be passed into the session 
-    so that it can be reused throughout the session
-    b) The page will then be redirected to /result page
-'''
-@app.route('/', methods=('GET', 'POST'))
+@app.route("/", methods=("GET", "POST"))
 def index():
-    if request.method == 'POST':
-        message = request.form['message']
-        if message is not None:
-            session.clear()
-            session['message'] = message
-            return redirect(url_for('result'))
-    return render_template("base.html")
+    """
+    Generate main page:
+        * For GET requests, base.html will be rendered without any results shown
+        * For POST requests, input text is extracted from the form in base.html.
+    """
+    if update_result():
+        return redirect(url_for("result"))
+    else:
+        return render_template("base.html")
 
 
-'''
-Result Page
-1. It will take both GET and POST requests 
-2. For GET request, 'message' will be obtained from the session, remember the 'message' is from the Home page! 
-    a) Sentiment and its score(probability) will be predicted by passing in the vectorizer (optional), model and message from the session
-    b) The result page will then be rendered based on the message, sentiment and score computed by the predictions
-3. For POST request, input message will be obtained from the form in result.html 
-    a) Session will then be cleared (to remove anything belonged to previous session) and 'message' will be passed into the session 
-    so that it can be reused throughout the session
-    c) The page will then be redirected to /result page
-'''
-@app.route('/result', methods=('GET', 'POST'))
+@app.route("/result", methods=("GET", "POST"))
 def result():
-    message = session.get('message')
-    df_pred = predict(model=model, text=message)
-    sentiment = df_pred.head(1)['sentiment'].values[0]
-    score = df_pred.head(1)['score'].values[0]
-    if request.method == 'POST':
-        message = request.form['message']
+    """
+    Generate result page:
+        * For GET requests, render result page with `message` from session
+        * For POST requests, render result page with `message` from form on result page
+    """
+    if update_result():
+        return redirect(url_for("result"))
+    else:
+        message = flask.session.get("message")
+        fig = get_word_cloud_fig(text=message)
+        fig.show()
+
+        saved_image = "word_cloud.png"
+        plt.savefig(saved_image)
+
+        return render_template("result.html", message=message, image=saved_image)
+
+
+def update_result() -> bool:
+    """
+    Update session's message and return whether or not to update result page with data
+    from form.
+
+    :return:
+        Whether or not to update the result page with data from form
+    """
+    if flask.request.method == "POST":
+        message = flask.request.form["message"]
         if message is not None:
-            session.clear()
-            session['message'] = message
-            return redirect(url_for('result'))
-    return render_template("result.html", message=message, sentiment=sentiment, score=score)
+            # Update session's message with the message from the form
+            flask.session.clear()
+            flask.session["message"] = message
+            return True
+    return False
+
+
+def get_word_cloud_fig(
+    text: str, fig_size: List[int] = [16, 12], **wc_kwargs: Any
+) -> plt.Figure:
+    """
+    Generate and return a word cloud image.
+
+    :param text:
+        Text to be converted to a word cloud
+    :param fig_size:
+        Size of image figure
+    :param wc_kwargs:
+        Keyword arguments to initialize word cloud (see
+        https://amueller.github.io/word_cloud/generated/wordcloud.WordCloud.html)
+    :return:
+        Image of word cloud
+    """
+    default_kwargs = dict(width=1280, height=960, background_color="white")
+    wc_kwargs = {**default_kwargs, **wc_kwargs}
+
+    cloud = WordCloud(**wc_kwargs).generate(text)
+
+    fig, ax = plt.subplots(figsize=fig_size)
+    ax.imshow(cloud, interpolation="bilinear")
+    ax.axis("off")
+
+    return fig

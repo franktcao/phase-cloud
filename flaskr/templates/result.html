@@ -1,37 +1,27 @@
-<!--
-Extend all the contents from base.html
--->
+<!-- Extend all the contents from base.html -->
 {% extends "base.html" %}
 
-<!--
-Define what should be inside the block content
--->
+<!-- Define what should be inside the block content -->
 {% block content %}
-    <!--
-    Header
-    1. Create a row with 3 columns with input message, sentiment, and score header
-    2. Use the outputHeader class which will center and bold the text
+    <!-- Header
+    Create a row with 2 columns for
+        1. The input message and
+        2. Word cloud image
+    Use the outputHeader class which will center and bold the text
     -->
     <div class="row">
         <div class="column">
             <p class="outputHeader">Message</p>
         </div>
         <div class="column">
-            <p class="outputHeader">Sentiment</p>
-        </div>
-        <div class="column">
-            <p class="outputHeader">Score</p>
+            <p class="outputHeader">Word Cloud</p>
         </div>
     </div>
 
-    <!--
-    Result
-    Create a row with 3 columns
-        1. The input message, will use customised blockquote to make it more unique
-        2. The predicted sentiment of the input message with badge class,
-           the sentiment is passed as a class of the div (combined with badge class),
-           positive and negative class are defined in css, Positive: Green color, Negative : Red color
-        3. The score (probability) of the predicted sentiment
+    <!-- Result
+    Create a row with 2 columns
+        1. The input message
+        2. The word cloud image
     -->
     <div class="row">
         <div class="column">
@@ -40,13 +30,8 @@ Define what should be inside the block content
             </blockquote>
         </div>
         <div class="column">
-            <div class="badge {{ sentiment }}">
-                {{ sentiment }}
-            </div>
-        </div>
-        <div class="column">
             <div class="badge">
-                {{ score }}
+                <img src="{{ image }}">
             </div>
         </div>
     </div>
