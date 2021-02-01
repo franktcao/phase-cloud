@@ -88,7 +88,7 @@ def get_word_cloud_fig(
     default_kwargs = dict(width=1280, height=960, background_color="white")
     wc_kwargs = {**default_kwargs, **wc_kwargs}
 
-    cloud = WordCloud(wc_kwargs).generate(text)
+    cloud = WordCloud(**wc_kwargs).generate(text)
 
     fig, ax = plt.subplots(figsize=fig_size)
     ax.imshow(cloud, interpolation="bilinear")
