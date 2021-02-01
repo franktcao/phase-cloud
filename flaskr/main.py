@@ -43,7 +43,7 @@ def result():
     else:
         message = flask.session.get("message")
         fig = get_word_cloud_fig(text=message)
-        plt.imshow(fig)
+        fig.show()
 
         saved_image = "images/word_cloud.png"
         plt.savefig(saved_image)
