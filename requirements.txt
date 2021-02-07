@@ -17,12 +17,10 @@ pandas==1.1.5
 pathspec==0.8.1
 Pillow==8.1.0
 pyparsing==2.4.7
-python-dateutil==2.8.1
 pytz==2020.4
 regex==2020.11.13
 scikit-learn==0.23.2
 scipy==1.5.4
-six==1.15.0
 threadpoolctl==2.1.0
 toml==0.10.2
 tqdm==4.54.1
@@ -30,3 +28,18 @@ typed-ast==1.4.2
 typing-extensions==3.7.4.3
 Werkzeug==1.0.1
 wordcloud==1.8.1
+
+# AWS CLI, boto3, and botocore
+awscli==1.19.3
+boto3==1.17.3
+botocore==1.20.3
+colorama==0.4.3
+docutils==0.15.2
+jmespath==0.10.0
+pyasn1==0.4.8
+python-dateutil==2.8.1
+PyYAML==5.3.1
+rsa==4.5
+s3transfer==0.3.4
+six==1.15.0
+urllib3==1.26.3
