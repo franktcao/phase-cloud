@@ -49,7 +49,11 @@ def result():
         plt.savefig(saved_image)
         upload_to_aws(file_name="word_cloud.png", bucket="phrase-cloud")
 
-        return render_template("result.html", message=message, image=saved_image)
+        return render_template(
+            "result.html",
+            message=message,
+            image=f"https://phrase-cloud.s3.amazonaws.com/{saved_image}",
+        )
 
 
 def update_result() -> bool:
