@@ -17,12 +17,12 @@ def upload_to_aws(file_name, bucket, object_name=None):
         object_name = file_name
 
     # Upload the file
-    s3_client = boto3.client('s3')
+    s3_client = boto3.client("s3")
     try:
-        s3_client.upload_file(file_name, bucket, object_name)
+        s3_client.upload_file(
+            file_name, bucket, object_name, ExtraArgs={"ACL": "public-read"}
+        )
     except ClientError as e:
         logging.error(e)
         return False
     return True
-
-
