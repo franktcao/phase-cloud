@@ -10,7 +10,7 @@ from flask import (
 from typing import Any, List
 from wordcloud import WordCloud
 
-from .model import predict
+from .utils import upload_to_aws
 
 app = Flask(__name__)
 app.config.from_mapping(
@@ -47,6 +47,7 @@ def result():
 
         saved_image = "word_cloud.png"
         plt.savefig(saved_image)
+        upload_to_aws(file_name="word_cloud.png", bucket="phrase-cloud")
 
         return render_template("result.html", message=message, image=saved_image)
 
