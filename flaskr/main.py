@@ -10,7 +10,6 @@ from flask import (
 from typing import Any, List
 from wordcloud import WordCloud
 
-from .model import predict
 from .utils import upload_to_aws
 
 app = Flask(__name__)
