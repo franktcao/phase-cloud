@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='mystyle.css') }}">
 
 <!--Website icon-->
-<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='webicon.png') }}">
+<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='cloud-computing.png') }}">
 
 <!--Website title-->
 <head>
@@ -23,24 +23,25 @@
 </header>
 
 <body>
-
+<div class="main-photo"> HI MAN </div>
+<div class="photo-cred"> HI MAN </div>
 <div class="content">
+{#    <div class="content"  class="masthead" style="background-image: url('{{ url_for('static', filename='lauren-peng-CTRklBY9fKc-unsplash.jpg')  }}')">>#}
 
     <!--
     1. Split into 3 columns
     2. 1st and 3rd column will be the positive and negative gif
     3. 2nd column will be the headings
     -->
-    <div class="row">
-        <div class="column">
-            <img src="{{ url_for('static', filename='postive.gif') }}" class="image">
-        </div>
-        <div class="column">
-            <h1>Phrase Cloud</h1>
-            <h2>Give me some phrases and I make cloud</h2>
-        </div>
-        <div class="column">
-            <img src="{{ url_for('static', filename='negative.gif') }}" class="image">
+    <h1>Phrase Cloud</h1>
+    <h2>Give me some phrases and I make cloud</h2>
+
+    <div>
+        <div class="main-photo">
+{#            <div class="main-photo" style="background-image: url('{{ url_for ('static', filename='lauren-peng-CTRklBY9fKc-unsplash.jpg')  }}');">#}
+            <div class = "photo-cred">
+                HI MAN
+            </div>
         </div>
     </div>
 
